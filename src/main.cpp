@@ -12,7 +12,7 @@ IPAddress subnet(255, 255, 255, 0);     // Маска підмережі
 
 const char* host = "raw.githubusercontent.com";        // Хост GitHub
 const uint16_t port = 80;                              // Порт для HTTP
-const char* uri = "https://github.com/stigmat4j/maestro-programmer/blob/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
+const char* uri = "stigmat4j/maestro-programmer/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
 const String currentVersion = "0.1";                   // Поточна версія прошивки
 
 
