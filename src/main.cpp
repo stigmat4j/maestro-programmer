@@ -13,7 +13,7 @@ IPAddress subnet(255, 255, 255, 0);     // Маска підмережі
 const char* host = "raw.githubusercontent.com";        // Хост GitHub
 const uint16_t port = 80;                              // Порт для HTTP
 const char* uri = "/your-username/your-repo-name/branch-name/path-to-your-firmware/firmware.bin"; // Шлях до файлу прошивки
-const String currentVersion = "1.0";                   // Поточна версія прошивки
+const String currentVersion = "0.1";                   // Поточна версія прошивки
 
 
 void checkForUpdates() {
