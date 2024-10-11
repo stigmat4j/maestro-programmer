@@ -2,28 +2,23 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
 #include <WiFiManager.h>   // Бібліотека для управління підключенням до Wi-Fi
-#include <WiFiClientSecureBearSSL.h> // Безпечний WiFi-клієнт для HTTPS
+
+WiFiClient client; // WiFi-клієнт для HTTP-запитів
 
 // Статична IP-адреса, шлюз і маска підмережі
 IPAddress staticIP(192, 168, 68, 68);   // Фіксована IP-адреса ESP8266
 IPAddress gateway(192, 168, 68, 1);     // IP-адреса маршрутизатора (шлюз)
 IPAddress subnet(255, 255, 255, 0);     // Маска підмережі
 
-const char* host = "ww.dropbox.com/";        // Хост GitHub
-const uint16_t port = 443;                             // Порт для HTTPS
-const char* uri = "/scl/fi/eii4ouipu21lzyrggjyvl/firmware.bin?rlkey=y2hz3hnnk8qfhp4bc5wbqi0b6&st=234pxfu5&dl=0"; // Шлях до файлу прошивки
-const String currentVersion = "0.1";                   // Поточна версія прошивки
+// Оновлене пряме посилання для завантаження файлу з Dropbox
+const char* firmware_url = "https://dl.dropboxusercontent.com/s/eii4ouipu21lzyrggjyvl/firmware.bin?dl=1"; // Пряме посилання на прошивку
+const String currentVersion = "0.1";  // Поточна версія прошивки
 
-// Функція для перевірки наявності оновлень і завантаження OTA
 void checkForUpdates() {
   Serial.println("Перевірка наявності оновлень...");
 
-  // Створюємо WiFi-клієнт для HTTPS-запитів з відключенням перевірки сертифікатів
-  std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
-  client->setInsecure(); // Відключаємо перевірку сертифікатів (тільки для тестування!)
-
-  // Оновлення по HTTPS
-  t_httpUpdate_return ret = ESPhttpUpdate.update(*client, host, port, uri, currentVersion);
+  // Оновлення по HTTP
+  t_httpUpdate_return ret = ESPhttpUpdate.update(client, firmware_url);
 
   switch (ret) {
     case HTTP_UPDATE_FAILED:
