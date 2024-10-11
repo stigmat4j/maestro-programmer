@@ -9,9 +9,9 @@ IPAddress staticIP(192, 168, 68, 68);   // Фіксована IP-адреса ES
 IPAddress gateway(192, 168, 68, 1);     // IP-адреса маршрутизатора (шлюз)
 IPAddress subnet(255, 255, 255, 0);     // Маска підмережі
 
-const char* host = "raw.githubusercontent.com";        // Хост GitHub
+const char* host = "ww.dropbox.com/";        // Хост GitHub
 const uint16_t port = 443;                             // Порт для HTTPS
-const char* uri = "/stigmat4j/maestro-programmer/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
+const char* uri = "/scl/fi/eii4ouipu21lzyrggjyvl/firmware.bin?rlkey=y2hz3hnnk8qfhp4bc5wbqi0b6&st=234pxfu5&dl=0"; // Шлях до файлу прошивки
 const String currentVersion = "0.1";                   // Поточна версія прошивки
 
 // Функція для перевірки наявності оновлень і завантаження OTA
