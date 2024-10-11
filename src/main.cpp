@@ -3,7 +3,7 @@
 #include <ESP8266httpUpdate.h>
 #include <WiFiManager.h>   // Бібліотека для управління підключенням до Wi-Fi
 
-WiFiClient client; // WiFi-клієнт для HTTP-запитів
+WiFiClientSecure client; // WiFi-клієнт для HTTPS-запитів
 
 // Статична IP-адреса, шлюз і маска підмережі
 IPAddress staticIP(192, 168, 68, 68);   // Фіксована IP-адреса ESP8266
@@ -11,15 +11,18 @@ IPAddress gateway(192, 168, 68, 1);     // IP-адреса маршрутиза�
 IPAddress subnet(255, 255, 255, 0);     // Маска підмережі
 
 const char* host = "raw.githubusercontent.com";        // Хост GitHub
-const uint16_t port = 80;                              // Порт для HTTP
-const char* uri = "stigmat4j/maestro-programmer/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
+const uint16_t port = 443;                             // Порт для HTTPS
+const char* uri = "/stigmat4j/maestro-programmer/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
 const String currentVersion = "0.1";                   // Поточна версія прошивки
 
 
 void checkForUpdates() {
   Serial.println("Перевірка наявності оновлень...");
 
-  // Оновлення по HTTP
+  // Додавання сертифікатів (можна використовувати без перевірки сертифікату для спрощення тестування)
+  client.setInsecure(); // Відключає перевірку сертифікату для HTTPS-з'єднання
+
+  // Оновлення по HTTPS
   t_httpUpdate_return ret = ESPhttpUpdate.update(client, host, port, uri, currentVersion);
 
   switch (ret) {
