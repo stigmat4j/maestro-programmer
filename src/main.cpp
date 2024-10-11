@@ -2,8 +2,7 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
 #include <WiFiManager.h>   // Бібліотека для управління підключенням до Wi-Fi
-
-WiFiClientSecure client; // WiFi-клієнт для HTTPS-запитів
+#include <WiFiClientSecureBearSSL.h> // Безпечний WiFi-клієнт для HTTPS
 
 // Статична IP-адреса, шлюз і маска підмережі
 IPAddress staticIP(192, 168, 68, 68);   // Фіксована IP-адреса ESP8266
@@ -15,15 +14,16 @@ const uint16_t port = 443;                             // Порт для HTTPS
 const char* uri = "/stigmat4j/maestro-programmer/main/.pio/build/esp12e/firmware.bin"; // Шлях до файлу прошивки
 const String currentVersion = "0.1";                   // Поточна версія прошивки
 
-
+// Функція для перевірки наявності оновлень і завантаження OTA
 void checkForUpdates() {
   Serial.println("Перевірка наявності оновлень...");
 
-  // Додавання сертифікатів (можна використовувати без перевірки сертифікату для спрощення тестування)
-  client.setInsecure(); // Відключає перевірку сертифікату для HTTPS-з'єднання
+  // Створюємо WiFi-клієнт для HTTPS-запитів з відключенням перевірки сертифікатів
+  std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
+  client->setInsecure(); // Відключаємо перевірку сертифікатів (тільки для тестування!)
 
   // Оновлення по HTTPS
-  t_httpUpdate_return ret = ESPhttpUpdate.update(client, host, port, uri, currentVersion);
+  t_httpUpdate_return ret = ESPhttpUpdate.update(*client, host, port, uri, currentVersion);
 
   switch (ret) {
     case HTTP_UPDATE_FAILED:
