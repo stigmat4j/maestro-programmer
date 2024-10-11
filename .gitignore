@@ -3,3 +3,6 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# Але не ігноруємо файл прошивки
+!.pio/build/esp12e/firmware.bin
